@@ -1,40 +1,50 @@
-// ← 1) Імпортуємо React, щоб мати можливість писати JSX (HTML-подібний код у JavaScript)
+// src/App.js
 import React from 'react';
-
-// ← 2) Імпортуємо потрібні речі з бібліотеки react-router-dom
-// HashRouter — це маршрутизатор, який використовує URL з # (наприклад, /#/driver)
-// Routes, Route — для опису, які сторінки (компоненти) показувати на яких шляхах
-// Link — для створення клікабельних посилань між сторінками
-import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
-// ← 3) Імпортуємо нашу сторінку «Кабінет водія», яку ми створили в папці pages
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import DriverDashboard from './pages/DriverDashboard';
+// ← імпортуємо як default-експорт
+import PassengerDashboard from './pages/PassengerDashboard';
 
-// ← 4) Оголошуємо головний компонент нашого застосунку
-function App() {
-  // ← 5) Повертаємо JSX (розмітку), яка буде відображатися у браузері
+
+function Home() {
   return (
-    // ← 6) Обгортаємо весь застосунок у Router, щоб працювали маршрути
+    <div style={{ textAlign: 'center', marginTop: 50 }}>
+      <h1>Вітаємо у Вараш Таксі</h1>
+      <p>Оберіть свій кабінет:</p>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
+        <Link to="/driver">
+          <button style={{ padding: '10px 20px' }}>Я Водій</button>
+        </Link>
+        <Link to="/passenger">
+          <button style={{ padding: '10px 20px' }}>Я Пасажир</button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
     <Router>
-      {/* ← 7) Невелике меню навігації зверху сторінки */}
-      <nav style={{ padding: 10 }}>
-        {/* ← 8) Link — це як <a>, але без перезавантаження сторінки */}
-        <Link to="/">Головна</Link> {/* ← 9) Посилання на головну сторінку */}
-        {" | "}{/* ← 10) Просто розділювач між посиланнями */}
-        <Link to="/driver">Кабінет водія</Link> {/* ← 11) Посилання на /driver */}
+      <nav style={{ padding: 10, background: '#eee' }}>
+        <Link to="/" style={{ marginRight: 10 }}>
+          Головна
+        </Link>
+        <Link to="/driver" style={{ marginRight: 10 }}>
+          Кабінет водія
+        </Link>
+        <Link to="/passenger">
+          Кабінет пасажира
+        </Link>
       </nav>
 
-      {/* ← 12) Тут описуємо, який компонент показувати на якій адресі */}
       <Routes>
-        {/* ← 13) Якщо шлях = '/', то показуємо простий заголовок */}
-        <Route path="/" element={<h1>Вітаємо у Вараш Таксі</h1>} />
-
-        {/* ← 14) Якщо шлях = '/driver', показуємо компонент DriverDashboard */}
+        <Route path="/" element={<Home />} />
         <Route path="/driver" element={<DriverDashboard />} />
+        <Route path="/passenger" element={<PassengerDashboard />} />
       </Routes>
     </Router>
   );
 }
 
-// ← 15) Експортуємо компонент App, щоб його міг використати index.js
 export default App;
